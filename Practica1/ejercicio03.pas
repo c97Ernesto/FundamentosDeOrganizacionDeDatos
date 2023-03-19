@@ -45,7 +45,7 @@ Procedure crearArchivo(var archivo: file_empleados);
 		write('Apellido de empleado ("fin" para terminar): ');
 		readln(registro.apellido);
 		
-		if (registro.apellido <> '') then begin
+		if (registro.apellido <> FIN) then begin
 			with registro do begin
 				write('Número de empleado: ');
 				readln(nro_empleado);
@@ -69,7 +69,7 @@ Begin
 	
 	rewrite(archivo);
 	leerEmpleado(empleado);
-	while (empleado.apellido <> '') do begin
+	while (empleado.apellido <> FIN) do begin
 		write(archivo, empleado);
 		leerEmpleado(empleado);
 	end;
