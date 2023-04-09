@@ -12,3 +12,16 @@ El orden del archivo está dado por: cod cliente, año y mes.
 Nota: tenga en cuenta que puede haber meses en los que los clientes no realizaron
 compras.
 }
+PROGRAM ejercicio08;
+CONST
+	VALOR_ALTO = 9999;
+
+TYPE
+
+
+VAR
+
+BEGIN
+
+END.
+

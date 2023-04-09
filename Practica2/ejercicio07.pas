@@ -38,7 +38,8 @@ TYPE
 	
 	archivo_maestro = file of registro_maestro;
 	archivo_detalle = file of registro_detalle;
-	
+
+//____________________________Leer____________________________
 Procedure leer(var archivo: archivo_detalle; var registro: registro_detalle);
 Begin
 	if (not eof(archivo)) then
@@ -47,6 +48,7 @@ Begin
 		registro.codProducto:= VALOR_ALTO;
 End;
 
+//____________________________Actualizar Maestro____________________________
 Procedure actualizarMaestro(var maestro: archivo_maestro; var detalle: archivo_detalle);
 Var
 	registroMaestro: registro_maestro;
@@ -81,6 +83,7 @@ Begin
 	close(detalle);
 End;
 
+//____________________________Listar en Txt____________________________
 Procedure listarTxt(var maestro: archivo_maestro);
 Var
 	archivoTxt: Text;
@@ -103,7 +106,7 @@ Begin
 	close(archivoTxt)
 End;
 	
-	
+//____________________________P.P____________________________
 VAR
 	opcion: opciones;
 	

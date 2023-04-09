@@ -17,31 +17,40 @@ máquinas.
 PROGRAM ejercicio04;
 CONST
 	MAXdetalles = 5;
-	VALOR_ALTO = 9999:
+	VALOR_ALTO = 9999;
 	
 TYPE
-	rango_detalles: 1..MAXdetalles;
-	str20: string[20];
-	str10: string[10];
+	rango_detalles = 1..MAXdetalles;
+	str20 = string[20];
 	
 	registro_maestro = record
 		codUsuario: integer;
 		fecha: str20;
-		tiempoTotalDeSesiones: str10;
+		tiempoTotalDeSesiones: integer;
 	end;
 	
 	registro_detalle = record
 		codUsuario: integer;
 		fecha: str20;
-		tiempoDeSesion: str10;
+		tiempoDeSesion: integer;
 	end;
 	
 	archivo_maestro = file of registro_maestro;
 	archivo_detalle = file of registro_detalle;
 	
 	vector_detalles = array [rango_detalles] of archivo_detalle;
-	vector_registrosDetalles = array [rango_detalles];
+	vector_registrosDetalles = array [rango_detalles] of registro_detalle;
 	
+//____________________________Leer____________________________
+Procedure leer(var archivo: archivo_detalle; registro: registro_detalle);
+Begin
+	if (not eof(archivo)) then
+		read(archivo, registro)
+	else
+		registro.codUsuario:= VALOR_ALTO;
+End;
+	
+//____________________________Mínimo____________________________
 Procedure minimo(var vD: vector_detalles; vR: vector_registrosDetalles; var minReg: registro_detalle);
 Var
 	i: rango_detalles;
@@ -50,16 +59,14 @@ Var
 Begin
 	minReg.codUsuario:= VALOR_ALTO;
 	
-	for i = 1 to MAXdetalles do begin
-		if (vR[i].codUsuario < minReg.codUsuario) then
-			if (vR[i].fecha < minReg.fecha) then begin
-				minReg:= vR[i];
-				minPos:= i;
-			end;
-		
+	for i:= 1 to MAXdetalles do begin
+		if (vR[i].codUsuario < minReg.codUsuario) then begin
+			minReg:= vR[i];
+			minPos:= i;
+		end;
 	end;
 	
-	if (minReg.cod_usuario <> VALOR_ALTO) then
+	if (minReg.codUsuario <> VALOR_ALTO) then
 		leer(vD[minPos], vR[minPos]);
 End;
 	
@@ -73,17 +80,34 @@ VAR
 	minRegistro: registro_detalle;
 	
 BEGIN
-	assign(maestro, 'maestro');
+	assign(maestro, 'var/log/maestro');
 	rewrite(maestro);
 
-	for i = 1 to MAXdetalles do begin
+	for i:= 1 to MAXdetalles do begin
 		assign(vecDetalles[i], 'Detalle '+ i);
 		reset(vecDetalles[i]);
 		leer(vecDetalles[i], vecRegistros[i]);
 	end;
 	
-	minimo(vecDetalles, vecRegistros, );
+	minimo(vecDetalles, vecRegistros, minRegistro);
 	
-	while ()
-
+	while (minRegistro.codUsuario <> VALOR_ALTO) do begin
+		//actualizo los campos del nuevo registro maestro
+		regMaestro.codUsuario:= minRegistro.codUsuario;
+		regMaestro.fecha:= minRegistro.fecha;
+		regMaestro.tiempoTotalDeSesiones:= 0;
+		
+		//proceso todos los registros detalles del mismo usuario que van a acumular en un registro del archivo maestro.
+		while (regMaestro.codUsuario = minRegistro.codUsuario) do begin
+			regMaestro.tiempoTotalDeSesiones:= regMaestro.tiempoTotalDeSesiones + minRegistro.tiempoDeSesion;
+			minimo(vecDetalles, vecRegistros, minRegistro);
+		end;
+		
+		write(maestro, regMaestro);
+			
+	end;
+	
+	close(maestro);
+	for i:= 1 to MAXdetalles do 
+		close(vecDetalles[i]);
 END.
