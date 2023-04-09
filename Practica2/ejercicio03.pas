@@ -42,6 +42,7 @@ TYPE
 	//vector de 30 registros para encontrar el mínimo entre los 30 archivos detalles
 	vec_regDetalles = array [1..MAXdetalles] of registro_detalle;
 	
+//_________________________Leer_________________________
 Procedure leer(var archivo: archivo_detalle; var registro: registro_detalle);
 Begin
 	if (not eof(archivo)) then
@@ -49,27 +50,32 @@ Begin
 	else
 		registro.codProducto:= VALOR_ALTO;
 End;
+
+//_________________________Mínimo_________________________
 Procedure minimo(var vDetalles: vec_archDetalles; var vRegistros: vec_regDetalles; min: registro_detalle);
 var
 	i: integer;
-	codMin: integer;
-	posMin: integer;
+	minCod: integer;
+	minPos: integer;
 	
 begin
-	posMin:= 1;
+	minPos:= 1;
 	codMin:= VALOR_ALTO;
 	
 	for (i:= 1 to MAXdetalles) do begin
-		if (vRegistros[i].codProducto < codMin) then begin
+		if (vRegistros[i].codProducto < minCod) then begin
 			codMin:= vRegistros[i].codProducto;
 			min:= vRegistro[i];
-			posMin:= i;
+			minPos:= i;
 		end;
 	end;
-	leer(vDetalles[posMin], )
+	
+	if (minCod <> VALOR_ALTO) then
+		leer(vD[minPos], vR[minPos]);
 end;
 
 	
+//_________________________P.P_________________________
 VAR
 	maestro: archivo_maestro;
 	regMaestro: registro_maestro;
