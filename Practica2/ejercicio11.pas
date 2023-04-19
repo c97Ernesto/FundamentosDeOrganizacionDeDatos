@@ -30,6 +30,7 @@ TYPE
 	archivo_maestro = file of registro_maestro;
 	archivo_detalle = file of registro_detalle;
 	
+//_________________________Leer_________________________	
 Procedure leer(var detalle: archivo_detalle; var registro: registro_detalle);
 Begin
 	if (not eof (detalle)) then
@@ -38,6 +39,7 @@ Begin
 		registro.nombreProvincia:= VALOR_ALTO;
 End;
 
+//_________________________Minimo_________________________
 Procedure minimo(var d1, d2: archivo_detalle; var r1, r2, min: registro_detalle);
 Begin
 	
@@ -52,7 +54,7 @@ Begin
 		end;
 End;
 		
-		
+//_________________________P.P_________________________		
 VAR
 	maestro: archivo_maestro;
 	detalle1: archivo_detalle;
@@ -79,6 +81,7 @@ BEGIN
 	minimo(detalle1, detalle2, regDetalle1, regDetalle2 regMin);
 	
 	while (regMin.nombreProvincia <> VALOR_ALTO) do begin
+		read(maestro, regMaestro);
 		
 		while (regMin.nombreProvincia <> regMaestro.nombreProvincia) do
 			read(maestro, regMaestro);
