@@ -1,0 +1,82 @@
+5. Dado el archivo dispersado a continuación, grafique los estados sucesivos para las
+siguientes operaciones: +12, +45, -70, -56.
+Técnica de resolución de colisiones: Saturación progresiva.
+f(x) = x MOD 11
+
+Dirección Clave Clave 		
+   0 	   44			
+   1 	   23 	 56		
+   2 	   24	 		
+   3
+   4 	   70
+   5 	   60
+   6 	   50
+   7 	   84
+   8
+   9 	   42
+   10 	   21 	 65
+
+
+Dirección Clave Clave 		+12: 12 mod 11 = 1
+   0 	   44			    Intentamos almacenar en dir 1, pero se produce OverFlow.
+   1 	   23 	 56		    Buscamos la siguiente dirección disponible (dirección 2).
+
+   2 	   24	 12 		
+
+   3
+   4 	   70
+   5 	   60
+   6 	   50
+   7 	   84
+   8
+   9 	   42
+   10 	   21 	 65
+
+
+Dirección Clave Clave 		+45: 45 mod 11 = 1
+   0 	   44			    Intentamos almacenar en dir 1, pero se produce OverFlow.
+   1 	   23 	 56		    Buscamos la siguiente dirección disponible (dirección 3).
+   2 	   24	 12 		
+
+   3       45
+
+   4 	   70
+   5 	   60
+   6 	   50
+   7 	   84
+   8
+   9 	   42
+   10 	   21 	 65
+
+Dirección Clave Clave 		-70: 70 mod 11 = 4
+   0 	   44			    Buscamos la clave en la dirección 4, damos de baja. Como
+   1 	   23 	 56		    el nodo nunca estuvo lleno, no dejamos marca de borrado.
+   2 	   24	 12 		
+   3       45
+
+   4 	   
+
+   5 	   60
+   6 	   50
+   7 	   84
+   8
+   9 	   42
+   10 	   21 	 65
+
+
+Dirección Clave Clave 		-56: 56 mod 11 = 1
+   0 	   44			    Buscamos la clave en la dirección 1, damos de baja. Como
+                            el nodo está lleno al eliminar la clave dejamos una marca
+   1 	   23 	 ##		    de borrado (##)
+
+   2 	   24	 12 		
+   3       45
+   4 	   
+   5 	   60
+   6 	   50
+   7 	   84
+   8
+   9 	   42
+   10 	   21 	 65
+
+DE = 

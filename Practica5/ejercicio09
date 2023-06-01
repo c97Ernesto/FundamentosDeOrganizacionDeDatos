@@ -1,0 +1,111 @@
+9. Dado el archivo dispersado a continuación, grafique los estados sucesivos para las
+siguientes operaciones: +78, +34, +23, +48, +37, -34
+Técnica de resolución de colisiones: Saturación progresiva encadenada.
+NOTA: Indicar Lecturas y Escrituras necesarias para cada operación.
+f(x) = x MOD 11
+
+Dirección Enlace Clave
+   0 	   -1
+   1 	   -1 	  12
+   2 	   -1
+   3 	   -1 	  47
+   4 	   -1
+   5 	   -1 	  16
+   6 	   -1
+   7 	   -1 	  18
+   8 	   -1
+   9 	   -1 	  20
+   10 	   -1
+
+Dirección Enlace Clave      +78: 78 mod 11 = 1  L/E: L1 L2 E2 E1
+   0 	   -1               Genero OverFLow en nodo 1 busco la sig dirección
+   1 	    2 	  12        disponible (dirección 2). Una vez insertada la 
+                            clave, la enlazo con la dirección 1.
+   2 	   -1     78
+
+   3 	   -1 	  47
+   4 	   -1
+   5 	   -1 	  16
+   6 	   -1
+   7 	   -1 	  18
+   8 	   -1
+   9 	   -1 	  20
+   10 	   -1
+
+Dirección Enlace Clave      +34: 34 mod 11 = 1  L/E: L1 L2 L3 L4 E4 E1
+   0 	   -1               Genero OverFLow en nodo 1 busco la sig dirección
+   1 	    4 	  12        disponible (dirección 4). Una vez insertada la 
+   2 	   -1     78        clave, la enlazo con la dirección 1.
+   3 	   -1 	  47
+
+   4 	    2     34
+
+   5 	   -1 	  16
+   6 	   -1
+   7 	   -1 	  18
+   8 	   -1
+   9 	   -1 	  20
+   10 	   -1
+
+Dirección Enlace Clave      +23: 23 mod 11 = 1  L/E: L1 ... L6 E6 E1
+   0 	   -1               Genero OverFLow en nodo 1 busco la sig dirección
+   1 	    6 	  12        disponible (dirección 6). Una vez insertada la 
+   2 	   -1     78        clave, la enlazo con la dirección 1.
+   3 	   -1 	  47
+   4 	    2     34
+   5 	   -1 	  16
+
+   6 	    4     23  
+
+   7 	   -1 	  18
+   8 	   -1
+   9 	   -1 	  20
+   10 	   -1
+
+Dirección Enlace Clave      +48: 48 mod 11 = 4  L/E: 
+   0 	   -1               Intento insertar en dirección 4, pero hay clave
+   1 	    6 	  12        intruso. Muevo la intrusa a la prox dirección 
+   2 	   -1     78        disponible (dirección 8).
+   3 	   -1 	  47        
+   4 	   -1     48 
+   5 	   -1 	  16        L/E: L4(le busco espacio a la intrusa) L5 L6 L7 
+   6 	    8     23        L8 E8(escribo intrusa) L1 E6(actualizo enlace)
+   7 	   -1 	  18        E4(inserto nueva clave)
+
+   8 	    2     34
+
+   9 	   -1 	  20
+   10 	   -1
+
+Dirección Enlace Clave      +37: 37 mod 11 = 4  L/E: L4 ... L10 E10 E4
+   0 	   -1               Se intenta agregar pero como ya hay una clave que
+   1 	    6 	  12        no es intrusa se le busca una nueva dirección.
+   2 	   -1     78        Enlazamos dirección 10 con 4
+   3 	   -1 	  47        
+   4 	   10     48 
+   5 	   -1 	  16        
+   6 	    8     23        
+   7 	   -1 	  18        
+   8 	    2     34
+   9 	   -1 	  20
+
+   10 	   -1     37
+
+Dirección Enlace Clave      -34: 34 mod 11 = 1  L/E: L1 L6 L8 E8 E6 
+   0 	   -1               Busco clave a través de los enlaces. Elimino clave
+   1 	    6 	  12        y actualizo los enlaces
+   2 	   -1     78        
+   3 	   -1 	  47        
+   4 	   10     48 
+   5 	   -1 	  16        
+   6 	   -1     23        
+   7 	   -1 	  18        
+   8 	   -1     
+   9 	   -1 	  20
+
+   10 	   -1     37
+
+
+DE = 9 / 1*11 = 0,8181
+
+==> DE = 81,81%

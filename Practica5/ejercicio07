@@ -1,0 +1,192 @@
+7. Dado el archivo dispersado a continuación, grafique los estados sucesivos para las
+siguientes operaciones: +20, +55, +36, +45, +50, -39, -29.
+Técnica de resolución de colisiones: Saturación progresiva.
+f(x) = x MOD 19
+
+Dirección Clave     
+   0 	   19
+   1 	   39
+   2 	   59
+   3
+   4 	   23
+   5
+   6
+   7 	   64
+   8
+   9 	   47
+   10  	   29
+   11
+   12 	   69
+   13
+   14
+   15 	   34
+   16
+   17
+   18 	   56
+
+Dirección Clave     +20: 20 mod 19 = 1      L/E
+   0 	   19       Intento agregar clave en dirección 1, pero genero Overflow.
+   1 	   39       Busco la dirección siguiente más próxima (dir 3).
+   2 	   59
+
+   3       20
+
+   4 	   23
+   5
+   6
+   7 	   64
+   8
+   9 	   47
+   10  	   29
+   11
+   12 	   69
+   13
+   14
+   15 	   34
+   16
+   17
+   18 	   56
+
+
+Dirección Clave     +55: 55 mod 19 = 17      L/E: L17 E17
+   0 	   19       Agrego clave en dirección 17 sin problemas
+   1 	   39       
+   2 	   59
+   3       20
+   4 	   23
+   5
+   6
+   7 	   64
+   8
+   9 	   47
+   10  	   29
+   11
+   12 	   69
+   13
+   14
+   15 	   34
+   16
+
+   17      55
+
+   18 	   56
+
+
+Dirección Clave     +36: 36 mod 19 = 17    L/E: L17 L18 L1 L2 L3 L4 L5 E5 
+   0 	   19       Intento agregar en dirección 17, pero genero OverFLow,
+   1 	   39       entonces busco la dirección disponible más próxima.
+   2 	   59       Agrego en dirección 5.
+   3       20       
+   4 	   23
+
+   5       17
+
+   6
+   7 	   64
+   8
+   9 	   47
+   10  	   29
+   11
+   12 	   69
+   13
+   14
+   15 	   34
+   16
+   17      55
+   18 	   56
+
+
+Dirección Clave     +45: 45 mod 19 = 7    L/E: 
+   0 	   19       Intento agregar en dirección 7 pero genero Overflo,
+   1 	   39       agrego en la dir más próxima disponible (dir 8).
+   2 	   59       
+   3       20       
+   4 	   23
+   5       17
+   6       
+   7 	   64
+
+   8       45
+
+   9 	   47
+   10  	   29
+   11
+   12 	   69
+   13
+   14
+   15 	   34
+   16
+   17      55
+   18 	   56
+
+Dirección Clave     +50: 50 mod 19 = 12    L/E: 
+   0 	   19       Intento agregar en dirección 12 pero genero Overflow,
+   1 	   39       agrego en la dir más próxima disponible (dir 13).
+   2 	   59       
+   3       20       
+   4 	   23
+   5       17
+   6       
+   7 	   64
+   8       45
+   9 	   47
+   10  	   29
+   11
+   12 	   69
+
+   13      50
+
+   14
+   15 	   34
+   16
+   17      55
+   18 	   56
+
+Dirección Clave     -39: 39 mod 19 = 1    L/E: L1 E1
+   0 	   19       Elimino clave de la dirección 1, como el siguiente no está
+                    vació dejo una marca de borrado (##)
+   1 	   ##       
+
+   2 	   59       
+   3       20       
+   4 	   23
+   5       17
+   6       
+   7 	   64
+   8       45
+   9 	   47
+   10  	   29
+   11
+   12 	   69
+   13      50
+   14
+   15 	   34
+   16
+   17      55
+   18 	   56
+
+Dirección Clave     -29: 29 mod 19 = 10    L/E: L10 E10
+   0 	   19       Leo dirección 10, como el nodo está lleno pero el siguiente
+   1 	   ##       no tiene datos, no dejo marca de borrado.
+   2 	   59       
+   3       20       
+   4 	   23
+   5       17
+   6       
+   7 	   64
+   8       45
+   9 	   47
+   10  	   
+   11
+   12 	   69
+   13      50
+   14
+   15 	   34
+   16
+   17      55
+   18 	   56
+
+r = 13
+rpn = 1
+n = 19
+DE = 13 / 19 = 0.6842 = 68,42%

@@ -1,0 +1,80 @@
+13. Dado el archivo dispersado a continuación, grafique los estados sucesivos para las
+siguientes operaciones: +58, +63, +78, -78, -34.
+NOTA: Indicar Lecturas y Escrituras necesarias para cada operación.
+Técnica de resolución de colisiones: Dispersión Doble
+f1(x) = x MOD 11
+f2(x)= x MOD 7 + 1
+
+Dirección Clave
+   0
+   1 	   34
+   2
+   3 	   69
+   4       26
+   5
+   6 	   72
+   7
+   8 	   41
+   9
+   10
+
+Dirección Clave     +58: 58 mod 11 = 3      (58 mod 7) + 1 = 2+1 = 3
+   0                Intentamos almacenar en dirección 3, pero como se encuentra 
+   1 	   34       ocupada, generamos Overflow. Buscamos la próxima dirección 
+   2                disponible desplazandonos de acuerdo a la segunda función
+   3 	   69       de hash (de a 3).
+   4       26       Insertamos clave en dirección 9.
+   5                L/E: L3 L6 L9 E9
+   6 	   72
+   7
+   8 	   41
+
+   9       58       
+
+   10
+
+Dirección Clave     +63: 63 mod 11 = 8      (63 mod 7) + 1 = 0+1 = 1
+   0                Intentamos agregar en dir 1 pero generamos OverFlow, 
+   1 	   34       nos desplazamos a la próxima dir disponible de acuerdo
+   2                a la segunda función de hash (de a 1).
+   3 	   69       Insertamos clave en dirección 10
+   4       26       L/E: L8 L9 L10 E10
+   5                
+   6 	   72
+   7
+   8 	   41
+   9       58       
+
+   10      61
+
+Dirección Clave     +78: 78 mod 11 = 1      (78 mod 7) + 1 = 1+1 = 2
+   0                Genero OverFlow en dir 1, busco la próx dir disponible
+   1 	   34       de acuerdo al desplazamiento de la función hash.
+   2                Inserto clave en dirección 5.
+   3 	   69       L/E: L1 L3 L5 E5
+   4       26       
+
+   5       78
+
+   6 	   72
+   7
+   8 	   41
+   9       58       
+   10      61
+
+Dirección Clave     -78: 78 mod 11 = 1      (78 mod 7) + 1 = 1+1 = 2
+   0                No se encuentra en la dir 1, la busco de acuerdo al
+   1 	   34       desplazamiento que nos proporcionó la segunda función
+   2                de hash.
+   3 	   69       Elimino clave en al dirección 5 y dejo una marca. Siempre
+   4       26       que se da de baja se deja una marca.
+
+   5       ##
+
+   6 	   72
+   7
+   8 	   41
+   9       58       
+   10      61
+
+Dirección Clave     +58: 58 mod 11 = 3      (58 mod 7) + 1 = 2+1 = 3

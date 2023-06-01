@@ -1,0 +1,85 @@
+6. Dado el archivo dispersado a continuación, grafique los estados sucesivos, indique
+lecturas y escrituras, y calcule la densidad de empaquetamiento para las siguientes
+operaciones: +31, +82, -15, -52
+Técnica de resolución de colisiones: Saturación progresiva.
+f(x) = x MOD 10
+
+Dirección Clave Clave 
+   0 
+   1 	   11 	 21 
+   2 	   52 
+   3 	   13 	 93
+   4 
+   5 	   15 
+   6 
+   7 	   17  	 97
+   8 
+   9
+
+Dirección Clave Clave   +31: 31 mod 10 = 1  L/E: L1 L2 E2
+   0                    Intento agregar clave en dir 1, pero genero OverFlow, entonces
+   1 	   11 	 21     busco la dirección siguiente más próxima (dir 2)
+                        
+   2 	   52    31
+
+   3 	   13 	 93
+   4 
+   5 	   15 
+   6 
+   7 	   17  	 97
+   8 
+   9
+
+Dirección Clave Clave   +82: 82 mod 10 = 2  L/E: L2 L3 L4 E4
+   0                    Intento agregar en dirección 2, pero genero OverFlow, entoces
+   1 	   11 	 21     busco la dirección siguiente más próxima (dir 4).
+   2 	   52    31
+   3 	   13 	 93
+
+   4       82
+
+   5 	   15 
+   6 
+   7 	   17  	 97
+   8 
+   9
+
+Dirección Clave Clave   -15: 15 mod 10 = 5  L/E: L5 E5
+   0                    Accedo a la dirección 5 y elimino clave 15. No dejo marca de
+   1 	   11 	 21     borrado ya que el nodo no está lleno.
+   2 	   52    31
+   3 	   13 	 93
+   4       82
+
+   5 	   
+
+   6 
+   7 	   17  	 97
+   8 
+   9
+
+Dirección Clave Clave   -52: 52 mod 10 = 2  L/E: L2 E2
+   0                    Accedo a la dir 2, elimino clave 52. Como el nodo está lleno,
+   1 	   11 	 21     dejo una marca de borrado (##)
+
+   2 	   ##    31
+
+   3 	   13 	 93
+   4       82
+   5 	   
+   6 
+   7 	   17  	 97
+   8 
+   9
+
+
+r = cantidad de registros que componen el arhivo.
+RPN = registros por nodo.
+n = nodos direccionables.
+DE = r / (RPN * n)
+
+r = 8
+RPN = 2
+n = 10 (0 a 9)
+DE = 20 / 
+

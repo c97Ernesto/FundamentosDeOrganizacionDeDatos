@@ -1,0 +1,33 @@
+2) Explique los conceptos de:
+	-Sinónimo: claves que pertenecen a un mismo registro.
+	-Colisión: cuando un registro es asignado (mediante la función de dispersión) a una dirección que
+	ya posee uno o más registros.
+	-Registro en Saturación: cuando un registro es direccionado a un nodo que no dispone capacidad para
+	almacenarlo.
+
+3) Explique brevemente qué es la densidad de empaquetamiento.
+	Se la define como la relación entre el espacio disponible para el archivo de datos y la cantidad de
+	registros que integran dicho archivo.
+	Cuanto mayor sea la DE, mayor será la posibilidad de colisiones, dado que ese caso se dispone de menos}
+	espacio para esparcir registros. 
+	Por el contrario si la DE se mantiene baja, se desperdicia espacio en el disco, dado que se utiliza menor 
+	espacio que el reservado, generando fragmentación.
+
+4.Explique cómo funcionan las siguientes técnicas de resolución de colisiones:
+.Saturación progresiva
+    Consiste en almacenar el registro en la dirección siguiente
+    más próxima al nodo donde se produce saturación.
+
+.Saturación progresiva encadenada
+    Igual al anterior. La diferencia  radica en que, una vez localizada	la nueva dirección, 
+    esta se encadena o se enlaza con la dirección base inicial, generando una cadena de 
+	búsqueda de elementos.
+
+    .Saturación progresiva encadenada con área de desborde separada
+
+.Dispersión doble
+    Consiste en disponer de dos funciones hash. La primera obtiene a partir de la llave la
+	dirección base, en la cual el registro será ubicado. La segunda no retorna una dirección, 
+    sino que su resultado es un desplazamiento. Éste desplazamiento se suma a la dirección base
+    obtenida con la primera función, generando así una nueva dirección base obtenida con la 
+	primera función.
