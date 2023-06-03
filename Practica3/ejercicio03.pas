@@ -45,37 +45,36 @@ TYPE
 	
 	archivo_novelas = file of registro_novela;
 	
-
+procedure leerReg(var reg: reg_Novela);
+begin
+	with reg do begin
+		write('Codigo: ');
+		readln(codigo);
+		if (codigo <> FIN) then begin
+			write('Genero: ');
+			readln(genero);
+			write('Nombre: ');
+			readln(nombre);
+			write('Duracion: ');
+			readln(duracion);
+			write('Director: ');
+			readln(director);
+			write('Precio: ');
+			readln(precio);
+		end;
+	end;
+end;
+	
+{_____________________________________Generar Archivo_____________________________________}
 {Crear el archivo y cargarlo a partir de datos ingresados por teclado. Se
 utiliza la técnica de lista invertida para recuperar espacio libre en el archivo}
 Procedure GenerarArchivo (var archivo: archivo_novelas);
-
-	procedure leerReg(var reg: reg_Novela);
-	begin
-		with reg do begin
-			write('Codigo: ');
-			readln(codigo);
-			if (codigo <> FIN) then begin
-				write('Genero: ');
-				readln(genero);
-				write('Nombre: ');
-				readln(nombre);
-				write('Duracion: ');
-				readln(duracion);
-				write('Director: ');
-				readln(director);
-				write('Precio: ');
-				readln(precio);
-			end;
-		end;
-	end;
-	
 Var
 	novela: registro_novela;
 Begin
 	assign(archivo, 'Novelas');
 	rewrite(archivo);
-	{creo el 1er registro del archivo (cabecero), con 0 espacios disponibles en el archivo}
+	{creo el 1er registro del archivo (regAux), con 0 espacios disponibles en el archivo}
 	novela.codigo:= 0;
 	write(archivo, novela);
 	
@@ -88,14 +87,68 @@ Begin
 	close(archivo);
 End;	
 
+{_____________________________________Abrir Archivo Existente_____________________________________}
+{Abrir el archivo existente y permitir su mantenimiento teniendo en cuenta el
+inciso a., se utiliza lista invertida para recuperación de espacio.}
 Procedure AbrirArchivoExistente(var archivo: archivo_novelas);
+
+	procedure darDeAlta(var archivo: archivo_novelas);
+	var
+		novela, regAux: registro_novela;
+		
+	begin
+		read(archivo, regAux);
+		
+		leerReg(novela);
+		
+		if (regAux.codigo > 0) then begin
+			seek(archivo,  regAux.codigo*-1);	//me posiciono en el registro vacío 
+			
+			read(archivo, regAux);	//leo el registro vacío
+			
+			seek(archivo, filePos(archivo)-1)		
+			
+			read(archivo, novela);			//escribo la nueva novela
+			
+			seek(archivo, 0);
+			
+			write(archivo, regAux); 		//actualizo el cabecero
+		end;
+		else begin
+			seek(archivo, fileSize(archivo));		//almaceno en el final del archivo
+			write(archivo, novela);
+		end;
+	end;
+	
+	procedure modificarNovela(var archivo: archivo_novelas);
+	var
+		cod: integer;
+	begin
+		write('Codigo de novela a eliminar: ');
+		readln(cod);
+		
+		read(archivo, novela);
+		while (not eof(archivo)) and (cod <> novela.codigo) do
+			read(archivo, novela);
+		
+		if (novela.codigo = cod) then begin
+			readln(novela.genero);
+			readln(novela.nombre);
+			readln(novela.duracion);
+			readln(novela.director);
+			readln(novela.precio);
+			
+			seek(archivo, filePos(archivo)-1);
+			write(archivo, novela);
+		end;
+	end;
 	
 	procedure eliminarNovela(var archivo);
 	var
-		novela, cabecero: registro_novela;
+		novela, regAux: registro_novela;
 		cod: integer;
 	begin
-		read(archivo, cabecero);	//leo el 1er registro del archivo que contiene los enlaces a los registros vacíos
+		read(archivo, regAux);	//leo el 1er registro del archivo que contiene los enlaces a los registros vacíos
 	
 		write('Ingresar código de novela a eliminar: ');
 		readln(cod);
@@ -106,30 +159,46 @@ Procedure AbrirArchivoExistente(var archivo: archivo_novelas);
 		
 		if (novela.codigo = cod) then begin //si es la novela a eliminar:
 			//almaceno en la novela eliminada, el código de la anterior novela eliminada.
-			novela.codigo:= cabecero.codigo;	
+			novela.codigo:= regAux.codigo;	
 			
 			//me posiciono en el lugar de la novela eliminada
 			seek(archivo, filePos(archivo)-1);
 			
-			//almaceno en el cabecero la posición de la novela eliminada  *-1
-			cabecero.codigo:= (filePos(archivo)) * -1;		
+			//almaceno en el regAux la posición de la novela eliminada  *-1
+			regAux.codigo:= (filePos(archivo)) * -1;		
 			
 			write(archivo, novela);
 			
 			seek(archivo, 0);
 			
-			write(archivo, cabecero);
+			write(archivo, regAux);
 		end;
 		
 	end;
-	
-	
-Var
 
 Begin
+	assign(archivo,  'Novelas');
 	reset(archivo);
 	
-	
+	repeat
+		writeln('				MENU				');
+		writeln('a. Dar de alta una Novela.');
+		writeln('b. Modificar Datos de Novela.');
+		writeln('c. Eliminar Novela.');
+		writeln('d. Salir.');
+		writeln('');
+		writeln('');
+		
+		write('Ingresar Opcion: ');
+		readln(opc);
+		
+		case opc of
+			'a': darAlta(archivo);
+			'b': modificarDatos(archivo);
+			'c': eliminar(archivo);
+		end;
+			
+	until (opc = 'd')
 	
 	close(archivo);
 	

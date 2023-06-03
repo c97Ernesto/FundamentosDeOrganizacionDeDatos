@@ -1,0 +1,46 @@
+9. Dado un árbol B de orden 5 y con política izquierda, para cada operación dada:
+    a. Dibuje el árbol resultante
+    b. Explique las decisiones tomadas
+    c. Escriba las lecturas y escrituras
+    Operaciones: -76, -400, +900, +12
+        nodo 2: 3 i 0(76)4(300)1(600)3
+        nodo 0: 4 h(21)(45)(46)(70)
+        nodo 4: 2 h(100)(200)
+        nodo 1: 1 h(400)
+        nodo 3: 2 h(700)(800)
+
+=> M = 5, cantMáxima = 4, cantMínima = (5/2)-1 = 1
+
+                                 2: 0(76)4(300)1(600)3
+
+0:(21)(45)(46)(70)          4:(100)(200)        1:(400)         3:(700)(800)
+
+
+-76: L2 L4 E4 E2             2: 0(100)4(300)1(600)3
+
+0:(21)(45)(46)(70)          4:(200)        1:(400)         3:(700)(800)
+
+Nodo 2: la clave no está en una hoja, entonces reemplazamos con la menor del subárbol 
+derecho (clave 100).
+
+
+-400: L2 L1 L4 E4 E2       2: 0(100)4(600)3
+
+0:(21)(45)(46)(70)          4:(200)(300)         3:(700)(800)
+
+Nodo 1 Underflow: Intento redistribuir con hermano adyacente izquierdo, pero no puedo por
+tener la cantidad mínima de claves, entonces fusiono con el mismo quedandome con el nodo
+de la izquierda liberando nodo 1.
+
+
++900: L2 L3 E3               2: 0(100)4(600)3
+
+0:(21)(45)(46)(70)          4:(200)(300)         3:(700)(800)(900)
+
+
++12: L2 L0 E0 E1 E2               2: 0(45)1(100)4(600)3
+
+0:(12)(21)      1:(46)(70)          4:(200)(300)         3:(700)(800)(900)
+
+Nodo 0 Overflow: mitad inferior (12 21) en nodo actual 0, mitad superior (46 70) en nodo
+liberado 1, y clave mínima de la mitad superior (45) promociona a nodo 2.

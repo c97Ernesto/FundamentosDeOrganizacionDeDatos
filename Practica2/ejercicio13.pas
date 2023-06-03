@@ -22,6 +22,13 @@ TYPE
 	archivo_maestro = file of registro_maestro;
 	archivo_detalle = file of registro_detalle;
 //_________________________Leer_________________________
+Procedure leer(var archivo: archivo_detalle; var registro: registro_detalle);
+Begin
+	if (not eof (archivo)) then
+		read(archivo, registro)
+	else
+		registro.nroUsuario:= VALOR_ALTO;
+End
 
 //_________________________Actualizar Maestro_________________________
 	

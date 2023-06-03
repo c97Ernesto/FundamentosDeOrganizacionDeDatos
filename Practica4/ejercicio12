@@ -1,0 +1,76 @@
+12. Dado el siguiente árbol B de orden 6, mostrar como quedaría el mismo luego de realizar
+las siguientes operaciones: +300, +577, -586, -570, -380, -460.
+Política de resolución de underflows: izquierda o derecha.
+
+M = 6;  cantMáxima = M-1 = 5;     cantMínima = (M/2)-1 = 2;     
+
+                                        2:0(216)1(460)4(570)5(689)3(777)6
+
+0:(100)(159)(171)   1:(222)(256)(358)(380)(423) 4:(505)(522)  5:(586)(599)(615)(623)(680) 3:(703)(725)  6:(789)(915)(1000)
+
+
++300: L2 L1 E1 E7 E2                               9:2(570)7
+E8 E9
+                       2:0(216)1(358)7(460)4                              8:5(689)3(777)6
+
+0:(100)(159)(171)   1:(222)(256)(300)  7(380)(423) 4:(505)(522)  5:(586)(599)(615)(623)(680) 3:(703)(725)  6:(789)(915)(1000)
+
+Nodo 1 OverFlow, al intentar agregar clave 300. Divido claves con la mitad inferior (222 256 300) quedando en nodo  
+actual, la mitad superior (380 423) en nodo nuevo 7 y promociono clave mínima de mitad superior (358) a nodo 2.
+Nodo 2 OverFlow, al intentar promocionar clave 358. Divido claves con la mitad inferior (216 358 460) quedando en nodo
+actual, la mitad superior (689 777) en nodo nuevo 8 y promociono clave mínima de mitad superior (570) a nodo nuevo 9.
+
+
++577:                                                 9:2(570)7
+
+                       2:0(216)1(358)7(460)4                             8:5(615)9(689)3(777)6
+
+0:(100)(159)(171)  1:(222)(256)(300)  7(380)(423)  4:(505)(522)  5:(577)(586)(599)  10:(623)(680)  3:(703)(725)  6:(789)(915)(1000)
+
+Nodo 5 OverFlow, al intentar agregar clave 557.Divido claves con la mitad inferior (577 586 599) quedando en nodo
+actual, mitad supeior (623 680) en nodo nuevo 10 y promociono clave mínima de mitad superior (615) a nodo 8.
+
+
+-586:                                                 9:2(570)7
+
+                       2:0(216)1(358)7(460)4                             8:5(615)9(689)3(777)6
+
+0:(100)(159)(171)  1:(222)(256)(300)  7(380)(423)  4:(505)(522)  5:(577)(599)  10:(623)(680)  3:(703)(725)  6:(789)(915)(1000)
+
+Nodo 5, clave 586 se elimina sin problemas.
+
+
+-570: L9 L8 L5 L10 E5                                9:2(577)7
+E8 E2 E9
+                       2:0(216)1(358)7(460)4                             8:5(680)9(689)3(777)6
+
+0:(100)(159)(171)  1:(222)(256)(300)  7(380)(423)  4:(505)(522)  5:(599)(615)(623)  3:(703)(725)  6:(789)(915)(1000)
+
+Nodo 9, como la clave no está en nodo terminal se intercambia por el menor de su subárbol derecho clave (577).
+Nodo 5 UnderFlow al promocionar clave 577, como no puedo redistribuir con hermano adyacente, fusiono liberando 
+nodo 10
+
+
+-380: L9 L2 L7 L1                                    9:2(577)7
+E1 E7 E2
+                       2:0(216)1(300)7(460)4                             8:5(680)9(689)3(777)6
+
+0:(100)(159)(171)  1:(222)(256)  7(358)(423)  4:(505)(522)  5:(599)(615)(623)  3:(703)(725)  6:(789)(915)(1000)
+
+Nodo 7 Underflow al intentar eliminar clave (380), redistribuyo con hermano adyacente izquierdo
+
+
+-460: L9 L2 L4 L7 E7                              9:2(577)7
+E2
+                       2:0(216)1(300)7                             8:5(680)9(689)3(777)6
+
+0:(100)(159)(171)  1:(222)(256)  7(358)(423)(505)(522)   5:(599)(615)(623)  3:(703)(725)  6:(789)(915)(1000)
+
+Nodo 2, al no estar la clave en un nodo terminal, la intercambio con la menor de sus subárbol derecho (505)
+Nodo 4 Underflow, como la política es izq o der, intento redistribuir con hermano adyacente izq, como no puedo,
+fusiono liberando nodo 4.
+
+
+
+
+

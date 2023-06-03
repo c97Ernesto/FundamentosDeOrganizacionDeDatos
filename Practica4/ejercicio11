@@ -1,0 +1,126 @@
+11. Dadas las siguientes operaciones, mostrar la construcción paso a paso de un árbol B de
+orden 5:
+Política de resolución de underflows: izquierda. +80, +50, +70, +120, +23, +52, +59, +65, +30, 
++40, +45, +31, +34, +38, +60, +63, +64, -23, -30, -31, -40, -45, -38.
+==> M = 5, cantMáxima = 4, cantMínima = (M/2)-1 = 1
+
++80, +50, +70, +120     0:(50)(70)(80)(120)
+
++23: L0, E0, E1, E2                   2:0(70)1
+    
+                            0:(23)(50)      1:(80)(120)
+
+Nodo 0 Overflow: mitad inferior (23 50) en nodo actual, mitad superior (80 120) en nodo nuevo 1
+y promociona mínimo de mitad superior (70) a nuevo nodo raíz 2.
+
+
++52, +59:                           2:0(70)1
+    
+                   0:(23)(50)(52)(59)      1:(80)(120)
+
+
++65:                                  2:0(52)3(70)1
+    
+                   0:(23)(50)      3:(59)(65)      1:(80)(120)
+
+Nodo 0 Overflow: mitad inferior (23 50) en nodo actual 0, mitad superior (59 65) en nodo 
+nuevo 3, y promocionamos clave mínima mitad superior (52).
+
+
++30, +40:                                  2:0(52)3(70)1
+    
+                   0:(23)(30)(40)(50)      3:(59)(65)      1:(80)(120)
+
+
++45: L2 L0 E0 E4 E2                  2:0(40)4(52)3(70)1
+    
+                   0:(23)(30)   4:(45)(50)      3:(59)(65)      1:(80)(120)
+
+
+Nodo 0 Overflow: mitad inferior (23 30) en nodo actual, mitad superior (45 50) en nodo 
+nuevo 4, y promocionamos clave 40
+
+
++31, +34:                         2:0(40)4(52)3(70)1
+    
+                   0:(23)(30)(31)(34)   4:(45)(50)      3:(59)(65)      1:(80)(120)
+
+
++38: L2 L0 E0 E5 E2                2:0(31)5(40)4(52)3(70)1
+    
+                   0:(23)(30)   5:(34)(38)   4:(45)(50)      3:(59)(65)      1:(80)(120)
+
+Nodo 0 Overflow: (23 30) en nodo actual, (34 38) en nodo nuevo 5, (31) promociona.
+
+
++60, +63                            2:0(31)5(40)4(52)3(70)1
+    
+                   0:(23)(30)   5:(34)(38)   4:(45)(50)    3:(59)(60)(63)(65)    1:(80)(120)
+
+                                
++64: L2 L3 E3 E6 E2 E7 E8                          8:2(52)7
+                                2:0(31)5(40)4                    7:3(63)6(70)1
+    
+                   0:(23)(30)   5:(34)(38)   4:(45)(50)    3:(59)(60)   6:(64)(65)    1:(80)(120)
+
+Nodo 3 Overflow: (59 60) en nodo actual 3, (64 65) en nodo nuevo 6, promociona (63)
+Nodo 2 Overflow: al promocionar 63 generamos overflow en nodo 2, (31 40) en nodo actual 2,
+(63 70) en nodo nuevo 7 y promocionamos clave menor de la mitad superior (52) a nuevo nodo
+raíz 8.
+
+
+-23:                                               8:2(52)7
+                                2:0(31)5(40)4                    7:3(63)6(70)1
+    
+                   0:(30)   5:(34)(38)   4:(45)(50)    3:(59)(60)   6:(64)(65)    1:(80)(120)
+
+
+-30: L8 L2 L0 L5 E0 E5 E2                          8:2(52)7
+                                2:0(34)5(40)4                    7:3(63)6(70)1
+    
+                   0:(31)   5:(38)   4:(45)(50)    3:(59)(60)   6:(64)(65)    1:(80)(120)
+
+Nodo 0 Underflow: política izquierda, no tenemos hermano adyacente, entonces distribuimos/fuisionamos con
+el derecho. Distribuimos con hermano adyacente derecho.
+
+
+-31: L8 L2 L0 L5 E0 E2                        8:2(52)7
+                                2:0(40)4                    7:3(63)6(70)1
+    
+                   0:(34)(38)   4:(45)(50)    3:(59)(60)   6:(64)(65)    1:(80)(120)
+
+Nodo 0 Underflow: intentamos distribuir con el derecho pero como no podemos, fusionamos.
+(34 38) en nodo 0 y liberamos nodo 5.
+
+
+-40: L8 L2 L4 L0 E4 E2                       8:2(52)7
+                                2:0(45)4                    7:3(63)6(70)1
+    
+                   0:(34)(38)   4:(50)    3:(59)(60)   6:(64)(65)    1:(80)(120)
+
+Nodo 2 Underflow: al no estar la clave en una hoja, reemplazo por la menor de las claves del
+subárbol derecho (45).
+
+
+-45: L8 L2 L4 L0 E0 E4 E2             8:2(52)7
+                          2:0(38)4               7:3(63)6(70)1
+    
+                   0:(34)      4:(50)    3:(59)(60)   6:(64)(65)    1:(80)(120)
+
+Nodo 2: intento reemplazar por clave 50, generando underflow en nodo 4
+Nodo 4 Underflow: redistribuyo con hermano adyacente izquierdo. (34 38 50) dejamos 34 en nodo
+0 38 en nodo 2 y 50 en nodo 4.
+
+
+-38: L8 L2 L4 L0 E0                 8:2(63)7
+L7 E2 E7 E8             2:0(52)3               7:6(70)1
+    
+                   0:(34)(50)    3:(59)(60)   6:(64)(65)    1:(80)(120)
+
+Nodo 2: intento reemplazar por clave 50 generando underflow en nodo 4.
+Nodo 4 Underflow: intento redistribuir con nodo adyacente izquierdo, como no puedo, fusiono 
+liberando nodo 4.
+Nodo 2 Underflow: al fusionar nodo 0 y 4 dejo en underflow nodo 2, entonces hago redistribución
+con nodo derecho 7 al no tener hermano adyacente izquierdo. (52 63 70) 52 en nodo 2, 63 en nodo
+raíz y 70 queda en nodo 7.
+

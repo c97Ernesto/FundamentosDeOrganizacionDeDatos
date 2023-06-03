@@ -1,0 +1,94 @@
+18. Para las siguientes claves, realice el proceso de dispersión mediante el método de
+hashing extensible, sabiendo que cada nodo tiene capacidad para dos registros. El número
+natural indica el orden de llegada de las claves. Se debe mostrar el estado del archivo
+para cada operación. Justifique brevemente ante colisión y desborde los pasos que realiza.
+
+1  Borges   11110100     2  Sabato  00111111
+3  Cortazar 01010111     4  Lugones 10100101
+5  Casares  10101010     6  Walsh   01101011
+
+Como no hay bit de la función de hash para asociar, insertamos normalmente las claves.
+TablaEnMemoria  CubetasEnDisco
+0
+    dir         0
+                Borges Sabato  
+
+Clave "Cortazar" genera desborde en la cubeta, por lo que incrementamos en uno su valor
+Además creamos una nueva cubeta con el mismo valor, y si el bit asociado a la tabla es
+menor, también lo incrementamos y duplicamos las celdas.
+TablaEnMemoria  CubetasEnDisco
+1
+      0 ------>  1
+                 Borges       
+
+      1 ------>  1
+                 Sabato Cortazar
+
+Al intentar agregar clave "Lugones" generamos desborde en la cubeta apuntada por 1.
+Incrementamos el valor de la cubeta con desborde y creamos otra con el mismo valor.
+Si el bit asociado a la tabla es menor al de la cubeta recientemente saturada, aumentamos
+en uno su valor y duplicamos las celdas.
+TablaEnMemoria  CubetasEnDisco
+2
+     00 ------>  1
+           |     Borges       
+           |
+     10 ---
+
+
+     01 ------>  2
+                 Lugones
+
+     11 ------>  2
+                 Sabato Cortazar
+      
+Al agregar clave "Casares" genero colisión en la cubeta apuntada por la celda 00 y 10.
+Almaceno normalmente la clave.
+TablaEnMemoria  CubetasEnDisco
+2
+     00 ------>  1
+           |     Borges Casares
+           |
+     10 ---
+
+
+     01 ------>  2
+                 Lugones
+
+     11 ------>  2
+                 Sabato Cortazar
+
+Al intentar agregar la clave "Walsh" genero colisión y desborde de la cubeta apuntada
+por la celda 11.
+Incremento el valor de la cubeta desbordada y creo una una cubeta con el mismo valor.
+Además al ser el bit asociado a la tabla, menor que el de la cubeta desbordada, incremento
+el valor del mismo en uno y duplico la cantidad de celdas.
+TablaEnMemoria  CubetasEnDisco
+3
+    000 ------>  1          
+           |     Borges Casares
+    100 ---|
+           | 
+    010 ---|
+           | 
+    110 ---
+
+    
+    001 ------> 2        
+           |    Lugones
+    101 ---
+
+
+    011 ------> 3
+                Walsh
+
+    111 ------> 3
+                Sabato Cortazar
+
+
+
+
+
+
+
+

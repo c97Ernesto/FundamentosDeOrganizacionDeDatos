@@ -1,0 +1,154 @@
+13. Dada las siguientes operaciones, mostrar cómo se construye el árbol B de orden 4: 
++65, +89, +23, +45, +20, +96, +10, +55, -23, +110, +50, -10, +25, -50, -45, +120, +130, 
++70, +75, +73, +100, -120, -110.
+Política de resolución de underflows: derecha.
+
+M = 4;  cantMáxima = M-1 = 3;   cantMínima = (M/2)-1 = 1;
+
++65 +89 +23:            
+                                    0:(23)(65)(89)
+
++45: L0 E0 E1 E2
+Nodo 0 OverFLow, dejamos la mitad inferior de las claves (23 45) en nodo actual 0,
+mitad superior (89) en nodo nuevo 1 y promocionamos clave mínima de la mitad 
+superior (65) a nodo nuevo raíz 2.
+                                       2:0(65)1
+    
+                    0:(23)(45)                          1:(89)
+
++20 +96:
+                                       2:0(65)1
+    
+                    0:(20)(23)(45)                          1:(89)(96)
+
+
++10: L2 L0 E0 E3 E2
+Nodo 0 OverFlow, mitad inferior de las claves (10 20) en nodo actual 0, mitad superior
+en nodo nuevo 3, y promociono clave mínima de la mitad superior (23).
+                                       2:0(23)3(65)1
+    
+                           0:(10)(20)      3:(45)    1:(89)(96)
+
+
++55:
+Nodo 3 se inserta normalmente.
+                                       2:0(23)3(65)1
+    
+                         0:(10)(20)      3:(45)(55)    1:(89)(96)
+
+
+-23: L2 L3 E3 E2
+Nodo 2, al no estar la clave 23 en un nodo hoja, la tengo que reemplazar por la menor de
+su subárbol derecho (45).
+                                       2:0(45)3(65)1
+    
+                         0:(10)(20)      3:(55)    1:(89)(96)
+
++110 +50:
+Se agregan sin problemas.
+                                       2:0(45)3(65)1
+    
+                         0:(10)(20)      3:(50)(55)    1:(89)(96)(110)
+
+-10:
+Se elimina sin problemas.
+                                       2:0(45)3(65)1
+    
+                         0:(20)      3:(50)(55)    1:(89)(96)(110)
+
++25
+Se agrega sin problemas.
+                                       2:0(45)3(65)1
+    
+                         0:(20)(25)      3:(50)(55)    1:(89)(96)(110)
+
+-50
+Se elimina sin problemas.
+                                       2:0(45)3(65)1
+    
+                         0:(20)(25)      3:(55)    1:(89)(96)(110)
+
+-45:
+Nodo 2, como la clave no está en un nodo terminal, se reemplaza por la menor clave de
+su subárbol derecho (55).
+Nodo 3 UnderFlow, como la política es de resolución de derecha, y el hermano adyacente
+derecho cuanta con más del mínimo de claves, redistribuyo.
+                                       2:0(55)3(96)1
+    
+                         0:(20)(25)      3:(65)(89)    1:(110)
+
+
++120 +130 +70:
+                                       2:0(55)3(96)1
+    
+                         0:(20)(25)      3:(65)(70)(89)    1:(110)(120)(130)
+
+
++75:
+Nodo 3 OverFlow, mitad inferior (65 70) en nodo actual, mitad superior (89) en nodo
+nuevo 4 y promociono mínimo de mitad superior (75) a nodo raíz 2.
+                                       2:0(55)3(75)4(96)1
+    
+                         0:(20)(25)  3:(65)(70)  4:(89)  1:(110)(120)(130)
+
++73
+Nodo 3, se inserta normalmente.
+                                       2:0(55)3(75)4(96)1
+    
+                         0:(20)(25)  3:(65)(70)(73)  4:(89)  1:(110)(120)(130)
+
+
++100: L2 L1 E1 E5 E2 E6 E7
+Nodo 1 OverFlow, mitad inferior de las claves (100 110) en nodo actual, mitad superior
+(130) en nodo nuevo 5, y promociono clave mínima de la mitad superior (120) a nodo raíz 2.
+Nodo 2 OverFlow al promocionar clave 120, mitad inferior (55 75) en nodo actual, mitad
+superior (120) en nodo nuevo 6 y promociono clave mínima de mitad superior a nuevo nodo
+raíz 7.
+                                                    7:2(96)6
+
+                             2:0(55)3(75)4                          6:1(120)5
+    
+                    0:(20)(25)  3:(65)(70)(73)  4:(89)          1:(100)(110)  5:(130)
+
+
+-120: L7 L6 L5 L1 E1 E5 E6
+Nodo 6, como no es nodo terminal reemplazo por la clave mínima de su subárbol
+derecho (130).
+Nodo 5 UnderFlow, como no tengo hermano adyacente derecho, redistribuyo con el izquierdo.
+AL redistribuir me quedan las claves 110 y 130 en nodo 5, entonces la que reemplaza a la
+clave 120 es la 110.
+                                                    7:2(96)6
+
+                             2:0(55)3(75)4                          6:1(110)5
+    
+                    0:(20)(25)  3:(65)(70)(73)  4:(89)          1:(100)  5:(130)
+
+
+-110:
+Nodo 6. Como la clave no está en un nodo terminal, reemplazo por la menor de su subárbol
+derecho (130).
+Nodo 5 UnderFlow, como no puedo redistribuir con hermano adyacente izquierdo, fusiono
+liberando nodo 5 (dejando más cargado nodo izquierdo).
+Nodo 6 UnderFlow al intentar fusionar claves de nodos hijos (me quedo sin clave en nodo
+de subárbol derecho), entonces intento redistribuir con hermano adyacente izquierdo ya
+que no tengo derecho.
+                                                    7:2(75)6
+
+                             2:0(55)3                          6:4(96)1
+    
+                    0:(20)(25)  3:(65)(70)(73)          4:(89)  1:(100)(130)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
