@@ -84,7 +84,8 @@ BEGIN
 	rewrite(maestro);
 
 	for i:= 1 to MAXdetalles do begin
-		assign(vecDetalles[i], 'Detalle '+ i);
+		Str (i,aString);
+		assign(vecDetalles[i], 'detalle', aString);
 		reset(vecDetalles[i]);
 		leer(vecDetalles[i], vecRegistros[i]);
 	end;
@@ -103,6 +104,7 @@ BEGIN
 			minimo(vecDetalles, vecRegistros, minRegistro);
 		end;
 		
+		seek(maestro, filePos(maestro)-1);
 		write(maestro, regMaestro);
 			
 	end;
