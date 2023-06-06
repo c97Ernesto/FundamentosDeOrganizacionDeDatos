@@ -33,12 +33,16 @@ representan la lista de espacio libre. El archivo debe llamarse “novelas.txt�
 PROGRAM
 CONST 
 	FIN = 0;
+	VALOR_ALTO = 9999;
 TYPE
+	opciones = 'a'..'d';
+	str20 = String[20]
+
 	registro_novela = record
 		codigo: integer;
 		genero: str20;
 		nombre: str20;
-		duracion: str10;
+		duracion: str20;
 		director: str20;
 		precio: real;
 	end;
@@ -64,7 +68,14 @@ begin
 		end;
 	end;
 end;
-	
+
+Procedure leerArchivo(var a: archivo_novelas; r: registro_novela);
+Begin
+	if (not eof(a)) then
+		read(a, r);
+	else
+		r.codigo:= VALOR_ALTO;
+End;
 {_____________________________________Generar Archivo_____________________________________}
 {Crear el archivo y cargarlo a partir de datos ingresados por teclado. Se
 utiliza la técnica de lista invertida para recuperar espacio libre en el archivo}
@@ -101,7 +112,7 @@ Procedure AbrirArchivoExistente(var archivo: archivo_novelas);
 		
 		leerReg(novela);
 		
-		if (regAux.codigo > 0) then begin
+		if (regAux.codigo < 0) then begin
 			seek(archivo,  regAux.codigo*-1);	//me posiciono en el registro vacío 
 			
 			read(archivo, regAux);	//leo el registro vacío
@@ -153,12 +164,12 @@ Procedure AbrirArchivoExistente(var archivo: archivo_novelas);
 		write('Ingresar código de novela a eliminar: ');
 		readln(cod);
 		
-		read(archivo, novela);	//leo el 2do registro
-		while (not eof(archivo) and (novela.codigo <> cod) do 
-			read(archivo, novela);
+		leerArchivo(archivo, novela);	//leo el 2do registro
+		while (novela.codigo <> VALOR_ALTO) and (novela.codigo <> cod) do 
+			leerArchivo(archivo, novela);
 		
 		if (novela.codigo = cod) then begin //si es la novela a eliminar:
-			//almaceno en la novela eliminada, el código de la anterior novela eliminada.
+			//almaceno en la novela eliminada, el índice en negativo de la anterior novela eliminada.
 			novela.codigo:= regAux.codigo;	
 			
 			//me posiciono en el lugar de la novela eliminada
@@ -173,9 +184,9 @@ Procedure AbrirArchivoExistente(var archivo: archivo_novelas);
 			
 			write(archivo, regAux);
 		end;
-		
 	end;
-
+Var
+	opc: opciones;
 Begin
 	assign(archivo,  'Novelas');
 	reset(archivo);
