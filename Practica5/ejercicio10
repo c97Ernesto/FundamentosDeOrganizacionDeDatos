@@ -16,3 +16,92 @@ Dirección Enlace Clave
    9 	   -1
    10 	   -1
 
+Dirección Enlace Clave      81 mod 11 = 4
+   0 	   -1
+   1 	   3 	  45
+   2 	   -1 	  13
+   3 	   -1 	  89
+
+   4 	   -1     81
+
+   5 	   -1 	  49
+   6 	   -1
+   7 	   -1
+   8 	   -1 	  74
+   9 	   -1
+   10 	   -1
+
+Dirección Enlace Clave      69 mod 11 = 3
+   0 	   -1               L/E: L3 L4 L5 L6 E6 L1 E1 E3
+   1 	    6 	  45        
+   2 	   -1 	  13
+
+   3 	   -1 	  69
+
+   4 	   -1     81
+   5 	   -1 	  49
+   6 	   -1     89
+   7 	   -1
+   8 	   -1 	  74
+   9 	   -1
+   10 	   -1
+
+Dirección Enlace Clave      +27 mod 11 = 5
+   0 	   -1               L/E: L5 L6 L7 E7
+   1 	    6 	  45        
+   2 	   -1 	  13
+   3 	   -1 	  69
+   4 	   -1     81
+   5 	    7 	  49
+   6 	   -1     89
+
+   7 	   -1     27
+
+   8 	   -1 	  74
+   9 	   -1
+   10 	   -1
+
+Dirección Enlace Clave      +51 mod 11 = 7
+   0 	   -1               L/E: L7 L8 L9 E9 L5 E5 E7
+   1 	    6 	  45        Hay clave intrusa, le busco lugar
+   2 	   -1 	  13
+   3 	   -1 	  69
+   4 	   -1     81
+   5 	    9 	  49
+   6 	   -1     89
+
+   7 	   -1     51
+
+   8 	   -1 	  74
+
+   9 	   -1     27
+
+   10 	   -1
+
+Dirección Enlace Clave      +56 mod 11 = 1
+   0 	   -1               L/E: L1...L10 E10 E1
+   1 	    10 	  45        
+   2 	   -1 	  13
+   3 	   -1 	  69
+   4 	   -1     81
+   5 	    9 	  49
+   6 	   -1     89
+   7 	   -1     51
+   8 	   -1 	  74
+   9 	   -1     27
+
+   10 	    6     56
+
+Dirección Enlace Clave      -45 mod 11 = 1
+   0 	   -1               L/E: L1 L10
+   1 	    6 	  56        
+   2 	   -1 	  13
+   3 	   -1 	  69
+   4 	   -1     81
+   5 	    9 	  49
+   6 	   -1     89
+   7 	   -1     51
+   8 	   -1 	  74
+   9 	   -1     27
+
+   10 	   -1     

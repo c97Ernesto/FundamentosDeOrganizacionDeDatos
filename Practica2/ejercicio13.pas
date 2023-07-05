@@ -32,7 +32,8 @@ End
 
 //_________________________Actualizar Maestro_________________________
 	
-Procedure actualizarMaestro(var maestro:archivo_maestro; var detalle: archivo_detalle);
+Procedure actualizar
+	 Maestro(var maestro:archivo_maestro; var detalle: archivo_detalle);
 Var
 	regMaestro: registro_maestro;
 	

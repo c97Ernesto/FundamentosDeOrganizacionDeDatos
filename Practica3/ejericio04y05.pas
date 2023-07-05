@@ -98,6 +98,28 @@ Begin
 	end;
 	close(a);
 End.
+
+
+{_____________________________________Imprimir_____________________________________}
+Procedure imprimir(var a: tArchFlores);
+Var
+	flor: reg_flor;
+	
+Begin
+	reset(archivo);
+	
+	seek(a, 1);
+	
+	leerArchivo(a, flor);
+	while (flor.codigo <> VALOR_ALTO) do begin
+		write(flor.nombre, ' ');
+		wrtieln(flor.codigo, ' ');
+		leerArchivo(a, flor);
+	end;
+	
+	close(archivo);
+End;
+
 	
 {_____________________________________P.P_____________________________________}
 VAR
@@ -105,7 +127,6 @@ VAR
 	nombre: str45;
 	codigo: integer;
 	flor: reg_flor;
-	
 BEGIN
 	assign(archivo, 'archivo_flores');
 	
@@ -119,4 +140,5 @@ BEGIN
 	flor.codigo:= codigo;
 	eliminarFlor(archivo, flor);
 	
+	imprimir(archivo);
 END.

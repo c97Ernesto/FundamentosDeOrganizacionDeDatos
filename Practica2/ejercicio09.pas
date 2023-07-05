@@ -63,7 +63,7 @@ BEGIN
 	leer(archivo, registro);
 	
 	cantVotosTotal:= 0;
-	while (not eof(archivo)) do begin
+	while (registro.codProvincia <> VALOR_ALTO) do begin
 		registroAux:= registro;	//actualizo el registro auxiliar con el registro leido.
 		cantVotosProvincia:= 0;
 		
